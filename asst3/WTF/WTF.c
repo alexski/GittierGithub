@@ -68,7 +68,7 @@ int main(int argc, char** argv){
             	close(network_socket);
             	return 1;
           	}
-            create(network_socket, argv[2]);
+            create(network_socket, argv[2], connInfo);
         }
     }
     

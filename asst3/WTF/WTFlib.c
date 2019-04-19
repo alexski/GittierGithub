@@ -66,13 +66,19 @@ int config_check(){
     return 0;
 }
 
-void create(int network, char* proj){
+void create(int network, char* proj, struct data* connInfo){
     char servRes[256];
     servRes[0] = '\0';
     
     send(network, proj, sizeof(proj), 0);
     recv(network, &servRes, sizeof(servRes), 0);
     printf("%s\n", servRes);
+    
+    /*
+    	
+    	NEED TO ADD CODE TO RECEIVE .MANIFEST CONTENT FROM SERVER
+    
+    */
     
     return;
 };

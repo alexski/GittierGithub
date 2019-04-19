@@ -11,6 +11,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <string.h>
+#include <openssl/sha.h>
 
 struct data{
     char ip[128];
@@ -20,6 +21,6 @@ struct data{
 void config(char*, char*);
 int config_check();
 void build_info(struct data*);
-void create(int, char*);
+void create(int, char*, struct data*);
 
 #endif

@@ -13,6 +13,7 @@
 #include <string.h>
 #include <dirent.h>
 #include <errno.h>
+#include <openssl/sha.h>
 
 void sCreate(int);
 
