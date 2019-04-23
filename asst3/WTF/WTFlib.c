@@ -67,18 +67,64 @@ int config_check(){
 }
 
 void create(int network, char* proj, struct data* connInfo){
-    char servRes[256];
-    servRes[0] = '\0';
+    char response[256];
+    char recvd[3];
+    char path[256];
+    recvd[0] = '\0';
+    response[0] = '\0';
+    DIR* projDir;
+    int mani, mani_size;
+    int bytesReceived = 0;
+    char ms[10];
+    char data[256];
     
     send(network, proj, sizeof(proj), 0);
-    recv(network, &servRes, sizeof(servRes), 0);
-    printf("%s\n", servRes);
+    recv(network, &recvd, sizeof(recvd), 0);
     
-    /*
+    if(strcmp(recvd, "OK") != 0){
+    	printf("Error: Project name was not successfully sent to server.\n");
+    	return;
+    }
+    
+    recv(network, &response, sizeof(response), 0);
+    
+    // server has created a dir for the proj and a .Manifest
+    if(strcmp(response, "success") == 0){
     	
-    	NEED TO ADD CODE TO RECEIVE .MANIFEST CONTENT FROM SERVER
+    	// build a dir for the proj on the client side
+    	strcpy(path, "./");
+    	strcat(path, proj);
+    	projDir = opendir(path);
+    	
+    	
+    	if(projDir){
+    		fprintf(stderr, "Error: Project already exists on the client side.\n");
+    		return;
+    	}else if(errno == ENOENT){ // proj dir does not exist therefore one must be created
+    		
+    		// create a proj dir on client side
+			mkdir(path, ACCESSPERMS);
+    		
+			// Initialize .Manifest file in project folder
+			strcat(path, "/.Manifest");
+			mani = open(path, O_RDWR | O_CREAT, 00666);
+			
+			// receive data from .Manifest from server side to put into .Manifest client side
+			recv(network, data, sizeof(data), 0);
+			write(mani, data, 2);
+
+			close(mani);
+    		
+    	}else{ // something went wrong with opendir()
+    		fprintf(stderr, "Error: opendir() failed for project's directory on client side.\n");
+    		return;
+    	}
     
-    */
+    // there was some error that stopped the server from going through with the function
+    }else{
+    	fprintf(stderr, "%s\n", response);
+    	return;
+    }
     
     return;
 };

@@ -11,7 +11,10 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <string.h>
+#include <dirent.h>
+#include <errno.h>
 #include <openssl/sha.h>
+#include <sys/sendfile.h>
 
 struct data{
     char ip[128];

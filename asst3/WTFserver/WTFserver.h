@@ -14,6 +14,7 @@
 #include <dirent.h>
 #include <errno.h>
 #include <openssl/sha.h>
+#include <sys/sendfile.h>
 
 void sCreate(int);
 
