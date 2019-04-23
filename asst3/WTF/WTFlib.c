@@ -39,6 +39,14 @@ void build_info(struct data* conn_info){
     return;
 };
 
+/*
+./WTF configure <IP> <port>
+The configure command will save the IP address and port of the server for use by later commands. This
+command will not attempt a connection to the server, but insteads saves the IP and port number so that they are
+not needed as parameters for all other commands. The IP and port can be either saved out to a ./.configure file or
+an environment variable by using extern. All commands that need to communicate with the server should first
+try to get the IP address and port from either the ./.configure file or environment variable and must fail ifconfigure wasn’t run before they were called. All other commands must also fail if a connection to the server
+cannot be established.*/
 void config(char* ip, char* port){
     int file = 0;
     
@@ -64,8 +72,14 @@ int config_check(){
     
     free(buff);
     return 0;
-}
+};
 
+/*
+./WTF create <project name>
+The create command will fail if the project name already exists on the server or the client can not communicate
+with the server. Otherwise, the server will create a project folder with the given name, initialize a .Manifest for it
+and send it to the client. The client will set up a local version of the project folder in its current directory and
+should place the .Manifest the server sent in it.*/
 void create(int network, char* proj, struct data* connInfo){
     char response[256];
     char recvd[3];
@@ -128,6 +142,41 @@ void create(int network, char* proj, struct data* connInfo){
     
     return;
 };
+
+/*
+./WTF destroy <project name>
+The destroy command will fail if the project name doesn’t exist on the server or the 
+client can not communicate with it. On receiving a destroy command the server should 
+lock the repository, expire any pending commits, delete all files and subdirectories 
+under the project and send back a success message.*/
+void destroy(int network, char* proj, struct data* connInfo){
+    char response[256];
+    char recvd[3];
+    recvd[0] = '\0';
+    response[0] = '\0';
+	
+    send(network, proj, sizeof(proj), 0);
+    recv(network, &recvd, sizeof(recvd), 0);
+    
+    if(strcmp(recvd, "OK") != 0){
+    	printf("Error: Project name was not successfully sent to server.\n");
+    	return;
+    }
+    
+    recv(network, &response, sizeof(response), 0);
+    
+    if(strcmp(response, "success") == 0){
+    	printf("Successfully destroyed contents of project.\n");
+    }else{
+    	fprintf(stderr, "%s\n", response);
+    }
+    
+	return;
+};
+
+
+
+
 
 
 

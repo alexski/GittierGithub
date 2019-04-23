@@ -46,6 +46,8 @@ int main(int argc, char** argv){
 			send(client_socket, sent, sizeof(sent), 0);
 			if(strcmp(client_command, "create") == 0){
 				sCreate(client_socket);
+			}else if(strcmp(client_command, "destroy") == 0){
+				sDestroy(client_socket);
 			}
 		}else{
 			fprintf(stderr, "Error: Message not received from client.\n");

@@ -25,5 +25,6 @@ void config(char*, char*);
 int config_check();
 void build_info(struct data*);
 void create(int, char*, struct data*);
+void destroy(int, char*, struct data*);
 
 #endif

@@ -59,17 +59,31 @@ int main(int argc, char** argv){
     printf("The server sent the data: %s\n", server_response);
     
     if(argc == 3){
+    
+    	// CREATE command
         if(strcmp(argv[1], "create") == 0){
             send(network_socket, argv[1], sizeof(argv[1]), 0);
             recv(network_socket, &received, sizeof(received), 0);
-            printf("recieved message: |%s|\n", received);
             if(strcmp("OK", received) != 0){
-            	fprintf(stderr, "Error: 'create' command did not send successfully.\n");
+            	fprintf(stderr, "Error: 'create' command failed to send.\n");
             	close(network_socket);
             	return 1;
           	}
             create(network_socket, argv[2], connInfo);
         }
+        
+        // DESTROY command
+        else if(strcmp(argv[1], "destroy") == 0){
+        	send(network_socket, argv[1], sizeof(argv[1]), 0);
+            recv(network_socket, &received, sizeof(received), 0);
+            if(strcmp("OK", received) != 0){
+            	fprintf(stderr, "Error: 'destroy' command failed to send.\n");
+            	close(network_socket);
+            	return 1;
+          	}
+            destroy(network_socket, argv[2], connInfo);
+        }
+        
     }
     
     // close the socket

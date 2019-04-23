@@ -17,5 +17,7 @@
 #include <sys/sendfile.h>
 
 void sCreate(int);
+int clearDir(char*);
+void sDestroy(int);
 
 #endif
