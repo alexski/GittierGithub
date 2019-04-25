@@ -21,6 +21,14 @@ struct data{
     char port[128];
 };
 
+struct manilist{
+	char modded;
+	int version;
+	char filename[512];
+	char hash[1024];
+	struct manilist* next;
+};
+
 void config(char*, char*);
 int config_check();
 void build_info(struct data*);

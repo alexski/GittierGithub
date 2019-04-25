@@ -83,7 +83,7 @@ should place the .Manifest the server sent in it.*/
 void create(int network, char* proj, struct data* connInfo){
     char response[256];
     char recvd[3];
-    char path[256];
+    char* path;
     recvd[0] = '\0';
     response[0] = '\0';
     DIR* projDir;
@@ -106,10 +106,10 @@ void create(int network, char* proj, struct data* connInfo){
     if(strcmp(response, "success") == 0){
     	
     	// build a dir for the proj on the client side
+    	path = (char*) malloc((sizeof(proj) + 32) * sizeof(char));
     	strcpy(path, "./");
     	strcat(path, proj);
     	projDir = opendir(path);
-    	
     	
     	if(projDir){
     		fprintf(stderr, "Error: Project already exists on the client side.\n");
@@ -118,7 +118,7 @@ void create(int network, char* proj, struct data* connInfo){
     		
     		// create a proj dir on client side
 			mkdir(path, ACCESSPERMS);
-    		
+			
 			// Initialize .Manifest file in project folder
 			strcat(path, "/.Manifest");
 			mani = open(path, O_RDWR | O_CREAT, 00666);

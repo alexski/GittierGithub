@@ -1,0 +1,17 @@
+12
+0	1	file333.txt	bhd34on48
+1	3	file12356.txt	jfwn809nvjf3
+0	12	file355.txt	7432fewnio0
+1	7	file74.txt	hfu3r9m93
+0	7	file78.txt	hfnu4380enfi
+1	6	file65.txt	nd8u3eriods
+1	5	file43.txt	hd7eufij
+1	4	file32.txt	fn4eridfjk
+0	11	file12.txt	3nu48erjcdk
+
+
+modded<tab>file version<tab>filename<tab>hashcode<newline>
+
+Modded
+	0 = commited = on the server already
+	1 = modified = has been modified and it not pushed onto the server yet

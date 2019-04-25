@@ -38,6 +38,21 @@ void sCreate(int client){
 			strcpy(response, "success");
 			send(client, response, sizeof(response), 0);
 			
+			// build metadata file
+			char* meta_path = (char*) malloc(sizeof(path) * sizeof(char));
+			strcpy(meta_path, path);
+			strcat(meta_path, "/.metadata");
+			
+			// write in the latest version of project
+			int md = open(meta_path, O_RDWR | O_CREAT, 00666);
+			write(md, "0", 1);
+			close(md);
+			free(meta_path);
+			
+			// build the /<version number> directory in the project directory
+			strcat(path, "/0");
+			mkdir(path, ACCESSPERMS);
+			
 			// Initialize .Manifest file in project folder
 			strcat(path, "/.Manifest");
 			mani = open(path, O_RDWR | O_CREAT, 00666);
@@ -64,6 +79,21 @@ void sCreate(int client){
 		
 		strcpy(response, "success");
 		send(client, response, sizeof(response), 0);
+		
+		// build metadata file
+		char* meta_path = (char*) malloc(sizeof(path) * sizeof(char));
+		strcpy(meta_path, path);
+		strcat(meta_path, "/.metadata");
+		
+		// write in the latest version of project
+		int md = open(meta_path, O_RDWR | O_CREAT, 00666);
+		write(md, "0", 1);
+		close(md);
+		free(meta_path);
+		
+		// build the /<version number> directory in the project directory
+		strcat(path, "/0");
+		mkdir(path, ACCESSPERMS);
 		
 		// Initialize .Manifest file in project folder
 		strcat(path, "/.Manifest");
