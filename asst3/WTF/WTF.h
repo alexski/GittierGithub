@@ -22,17 +22,28 @@ struct data{
 };
 
 struct manilist{
-	char modded;
+	char modded[1];
 	int version;
 	char filename[512];
-	char hash[1024];
+	char hash[33];
 	struct manilist* next;
 };
 
 void config(char*, char*);
 int config_check();
 void build_info(struct data*);
+
 void create(int, char*, struct data*);
+
 void destroy(int, char*, struct data*);
+
+void freeMani(struct manilist*);
+void updateMani(char*, struct manilist**, int);
+int addManilist(char*, char*, struct manilist**);
+int buildManilist(char*, struct manilist**);
+unsigned char* fileHash(char*);
+void add(char* proj, char* filename);
+int removeManilist(char*, struct manilist**);
+void removeFile(char*, char*);
 
 #endif

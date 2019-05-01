@@ -1,5 +1,5 @@
 all: WTF.c WTFlib.o
-	gcc WTF.c WTFlib.o -o WTF
+	gcc WTF.c WTFlib.o -o WTF -lcrypto -lssl
 
 WTFlib.o: WTFlib.c
 	gcc -c WTFlib.c

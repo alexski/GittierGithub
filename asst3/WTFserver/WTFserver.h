@@ -16,8 +16,20 @@
 #include <openssl/sha.h>
 #include <sys/sendfile.h>
 
+
+struct manilist{
+	char modded[1];
+	int version;
+	char filename[512];
+	char hash[33];
+	struct manilist* next;
+};
+
+
 void sCreate(int);
 int clearDir(char*);
 void sDestroy(int);
+
+
 
 #endif
