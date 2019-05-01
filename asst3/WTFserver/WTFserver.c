@@ -121,14 +121,16 @@ int sbuildManilist(char* path, struct manilist** node){
 };
 
 
-void sCurrentVersion(int sock){
+void sCurrentVersion(int client){
 	char proj[256];
 	char response[256];
 	char sent[3] = "OK";
 	char path[512] = "./repository";
 	struct stat* manistat;
 	struct manilist* front;
+	struct manilist* ptr;
 	int mani_version;
+	int pos = 0;
 	char c[1];
 	char buffer[256];
 	char fv[128];
@@ -203,7 +205,7 @@ void sCurrentVersion(int sock){
 					strcat(buffer, fv);
 					strcpy(response, buffer);
 					send(client, response, sizeof(response), 0);
-					ptr = pre->next;
+					ptr = ptr->next;
 				}
 				
 				strcpy(response, "done");
@@ -239,9 +241,6 @@ void sCurrentVersion(int sock){
 	
 	// close repos dir
 	closedir(repos);
-	return;
-	
-
 	return;
 };
 
@@ -293,6 +292,7 @@ int main(int argc, char** argv){
 				sDestroy(client_socket);
 			}else if(strcmp(client_command, "currentversion") == 0){
 				sCurrentVersion(client_socket);
+			}
 		}else{
 			fprintf(stderr, "Error: Message not received from client.\n");
 		}

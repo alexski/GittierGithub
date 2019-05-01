@@ -12,12 +12,13 @@ of a project from the server. This command does not require that the
 client has a copy of the project locally. The client should output a list 
 of all files under the project name, along with their version number 
 (i.e., number of updates). */
-void currentversion(char* proj, struct data* connInfo){
+void currentversion(int network, char* proj, struct data* connInfo){
 	char response[256];
     char recvd[3];
     char* path;
     recvd[0] = '\0';
     response[0] = '\0';
+    int done = 0;
     
     send(network, proj, sizeof(proj), 0);
     recv(network, &recvd, sizeof(recvd), 0);
